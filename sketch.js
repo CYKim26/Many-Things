@@ -4,15 +4,16 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
     noStroke()
   createBalls(int(random(10,15)))
+
 }
 
 function createBalls(n) {
 //   n: number of balls
-//   r: radius
 
   balls = []
+  
   for( let i = 0; i < n; i++ ) {
-    r=random(10,15)
+    r=random(15,30)
     let newBall = {
       r: r,
       x: random(r, width-r),
@@ -26,12 +27,21 @@ function createBalls(n) {
 }
 function draw() {
   background(0)
-  for(let b of balls) {
+  
+  for(let i=0;i<balls.length;i++) {
+    b = balls[i]
+    for (let j=i+1;j<balls.length;j++) {
+      b2 = balls[j]
+      if(dist(b.x,b.y,b2.x,b2.y) < b.r + b2.r) {
+        [b.dx,b.dy,b2.dx,b2.dy] = [b2.dx,b2.dy,b.dx,b.dy] 
+      }
+    }
+  }
+  for (let b of balls) {
     fill(b.c)
     circle(b.x,b.y,b.r)
     b.x += b.dx 
     b.y += b.dy
-    
     if( b.x < b.r || b.x > width- b.r) {
       b.dx *= -1
       b.c.setAlpha(random(50,255))
@@ -40,7 +50,6 @@ function draw() {
       b.dy *= -1
       b.c.setAlpha(random(50,255))
     }
-    
-    
   }
+  
 }

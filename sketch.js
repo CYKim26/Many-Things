@@ -11,7 +11,7 @@ function setup() {
     y: mouseY,
     w: 50,
     h: 50,
-    c: color(255)
+    c: color("#DBE9F5")
   }
 }
 
@@ -26,7 +26,7 @@ function createBalls(n) {
       r: r,
       x: random(r, width-r),
       y: random(r, height-r),
-      c: color(20,112,252),
+      c: color(20,112,255),
       dx: random(-3,3),
       dy: random(-3,3)
     }
@@ -51,24 +51,39 @@ function draw() {
     b.y += b.dy
     if( b.x < b.r || b.x > width - b.r) {
       b.dx *= -1
-      b.c.setAlpha(random(50,255))
+      b.c.setAlpha(random(75,255))
     }
     if( b.y < b.r || b.y > height - b.r) {
       b.dy *= -1
-      b.c.setAlpha(random(50,255))
+      b.c.setAlpha(random(75,255))
     }
     
-    if (u.x < b.x + b.r && u.x + u.w > b.x - b.r && u.y < b.y + b.r && u.y + u.h > b.y - b.r) {
+     if (u.x < b.x + b.r && u.x + u.w > b.x - b.r && u.y < b.y + b.r && u.y + u.h > b.y - b.r) {
       let overlapX = abs((u.x + u.w / 2) - b.x)
       let overlapY = abs((u.y + u.h / 2) - b.y)
       
       if (overlapX > overlapY) {
+        if (b.x < u.x + u.w / 2) {
+          b.x = u.x - b.r
+        }
+        else {
+          b.x = u.x + u.w + b.r
+        }
         b.dx *= -1
-      } else {
+        b.c.setAlpha(random(75,255))
+      } 
+       
+      else {
+        if (b.y < u.y + u.h / 2) {
+          b.y = u.y - b.r
+        } 
+        else {
+          b.y = u.y + u.h + b.r
+        }
         b.dy *= -1
+        b.c.setAlpha(random(75,255))
       }
     }
-  
     
     for (let j=i+1;j<balls.length;j++) {
       b2 = balls[j]
